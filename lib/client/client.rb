@@ -1,0 +1,76 @@
+require 'oauth'
+
+module Platybox
+  class Client
+      
+      attr_accessor :consumer_key, :consumer_secret
+      
+      def initialize(consumer_key, consumer_secret)
+        @site = "http://api.platybox.com"
+        @consumer_key = consumer_key
+        @consumer_secret = consumer_secret
+      end
+  
+      def prepare_access_token(oauth_token, oauth_secret)
+        consumer = OAuth::Consumer.new( @consumer_key, @consumer_secret, 
+          { :site => @site,
+            :authorize_path => "authorize",
+            :access_token_path => "access_token",
+            :request_token_path=>"request_token"})
+            
+        token_hash ={ :oauth_token => oauth_token,
+            :oauth_token_secret => oauth_secret}          
+        access_token = OAuth::AccessToken.from_hash(consumer, token_hash)        
+        return access_token
+      end
+
+      # returns the current user
+      # @return [Hash] The requested user
+      def users_show (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        if id.nil?
+          @response = @access_token.request(:post, @site + "/1/users/show")
+        else
+          @response = @access_token.request(:post, @site + "/1/users/show", :id => id)
+        end
+        @user = JSON.parse(@response.body())[0]["user"]  
+      end
+  
+      #returns the selected bit
+      #@param id [Integer] The numeric ID representing the bit.
+      #@return [Hash] The requested bit
+      def bits_show (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/bits/show", :id => id)
+        @bit = JSON.parse(@response.body())[0]["bit"]  
+      end
+      
+      #returns an array of promos
+      #@param places_id [Integer] The numeric ID that identifies a place
+      #@return [Array][Hash][Hash] An array of promo objects
+      def promos_show (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/show", :places_id => id)
+        @promos = JSON.parse(@response.body())
+      end
+        
+      #Consumes a promo
+      #@param id [Integer] The numeric ID that identifies the promo
+      #@return [Hash][Hash] the promo object
+      def promos_consume (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/consume", :id => id)
+        @promo = JSON.parse(@response.body())[0]
+      end
+    
+      #Checks in
+      #@param id [Integer] The numeric ID that identifies the bit
+      #@return [Hash][Hash] a checkin object and a user object
+      def checkins_bit (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/checkins/bit", :id => id)
+        @checkin = JSON.parse(@response.body())[0]  
+      end
+      
+    end
+ end
