@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roberto Calderon"]
-  s.date = %q{2011-03-09}
+  s.date = %q{2011-03-10}
   s.description = %q{The platybox API gem}
   s.email = %q{roberto @ robertocalderon.ca}
   s.extra_rdoc_files = ["lib/platybox.rb"]
