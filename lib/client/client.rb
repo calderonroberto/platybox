@@ -7,6 +7,7 @@ module Platybox
       
       def initialize(consumer_key, consumer_secret)
         @site = "http://api.platybox.com"
+        #@site = "http://localhost:8080"
         @consumer_key = consumer_key
         @consumer_secret = consumer_secret
       end
@@ -29,11 +30,11 @@ module Platybox
       def users_show (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         if id.nil?
-          @response = @access_token.request(:post, @site + "/1/users/show")
+          @response = @access_token.request(:get, @site + "/1/users/show")
         else
           @response = @access_token.request(:post, @site + "/1/users/show", :id => id)
         end
-        @user = JSON.parse(@response.body())[0]["user"]  
+        @user = JSON.parse(@response.body())["user"]  
       end
   
       #returns the selected bit
@@ -42,16 +43,16 @@ module Platybox
       def bits_show (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/bits/show", :id => id)
-        @bit = JSON.parse(@response.body())[0]["bit"]  
+        @bit = JSON.parse(@response.body())["bit"]  
       end
       
       #returns an array of promos
       #@param places_id [Integer] The numeric ID that identifies a place
       #@return [Array][Hash][Hash] An array of promo objects
-      def promos_show (current_user, id)
+      def promos_place (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
-        @response = @access_token.request(:post, @site + "/1/promos/show", :places_id => id)
-        @promos = JSON.parse(@response.body())
+        @response = @access_token.request(:post, @site + "/1/promos/place", :id => id)
+        @promos = JSON.parse(@response.body())["promos"]
       end
         
       #Consumes a promo
@@ -60,7 +61,7 @@ module Platybox
       def promos_consume (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/promos/consume", :id => id)
-        @promo = JSON.parse(@response.body())[0]
+        @promo = JSON.parse(@response.body())
       end
     
       #Checks in
@@ -69,7 +70,7 @@ module Platybox
       def checkins_bit (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/checkins/bit", :id => id)
-        @checkin = JSON.parse(@response.body())[0]  
+        @checkin = JSON.parse(@response.body())  
       end
       
     end

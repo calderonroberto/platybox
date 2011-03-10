@@ -6,13 +6,13 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Roberto Calderon"]
-  s.date = %q{2011-03-07}
+  s.date = %q{2011-03-09}
   s.description = %q{The platybox API gem}
   s.email = %q{roberto @ robertocalderon.ca}
   s.extra_rdoc_files = ["lib/platybox.rb"]
   s.files = ["Rakefile", "lib/platybox.rb", "Manifest", "platybox.gemspec"]
   s.homepage = %q{http://github.com/calderonroberto/platybox}
-  s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Platybox"]
+  s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Platybox", "--main", "README.markdown"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{platybox}
   s.rubygems_version = %q{1.4.2}
