@@ -7,7 +7,6 @@ module Platybox
       
       def initialize(consumer_key, consumer_secret)
         @site = "http://api.platybox.com"
-        #@site = "http://localhost:8080"
         @consumer_key = consumer_key
         @consumer_secret = consumer_secret
       end
@@ -67,11 +66,34 @@ module Platybox
       #Checks in
       #@param id [Integer] The numeric ID that identifies the bit
       #@return [Hash][Hash] a checkin object and a user object
-      def checkins_bit (current_user, id)
+      def checkins_bit(current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/checkins/bit", :id => id)
         @checkin = JSON.parse(@response.body())  
       end
       
+      #Leaders
+      #@return [Array][Hash][Hash] a leaders array containing user objects
+      def leaders_experience(current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/leaders/experience")
+        @leaders = JSON.parse(@response.body())["leaders"]
+      end
+      
+      #show promo by bit id
+      def promos_show(current_user, bits_id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/show", :bits_id => bits_id)
+        @leaders = JSON.parse(@response.body())
+      end
+      
+           
+      #invalidate promo
+      def promos_invalidate(current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/invalidate", :id => id)
+        @leaders = JSON.parse(@response.body())
+      end
+            
     end
  end
