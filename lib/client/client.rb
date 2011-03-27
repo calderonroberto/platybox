@@ -81,12 +81,18 @@ module Platybox
       end
       
       #show promo by bit id
-      def promos_show(current_user, bits_id)
+      def promos_show_by_bit(current_user, bits_id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/promos/show", :bits_id => bits_id)
         @leaders = JSON.parse(@response.body())
       end
       
+      #show promo by id
+      def promos_show(current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/show", :id => id)
+        @leaders = JSON.parse(@response.body())
+      end
            
       #invalidate promo
       def promos_invalidate(current_user, id)
