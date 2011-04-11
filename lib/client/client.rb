@@ -1,4 +1,6 @@
 require 'oauth'
+require 'uri'
+require 'net/http'
 
 module Platybox
   class Client
@@ -45,7 +47,17 @@ module Platybox
         @bit = JSON.parse(@response.body())["bit"]  
       end
       
-      #returns an array of promos
+      #returns an array of sponsored promos, need not be authenticated
+      def promos_sponsored
+        url = URI.parse( @site + "/1/promos/sponsored")
+        req = Net::HTTP::Get.new(url.path)
+        @response = Net::HTTP.start(url.host, url.port) {|http|
+          http.request(req)
+        }
+        @promos = JSON.parse(@response.body())["promos"]        
+      end
+            
+      #returns an array of promos of a place
       #@param places_id [Integer] The numeric ID that identifies a place
       #@return [Array][Hash][Hash] An array of promo objects
       def promos_place (current_user, id)
