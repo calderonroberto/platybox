@@ -47,6 +47,15 @@ module Platybox
         @bit = JSON.parse(@response.body())["bit"]  
       end
       
+      #returns the selected place
+      #@param id [Integer] The numeric ID representing the place.
+      def places_show (current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/places/show", :id => id)
+        print @response.body()
+        @place = JSON.parse(@response.body())  
+      end
+      
       #returns an array of sponsored promos, need not be authenticated
       def promos_sponsored
         url = URI.parse( @site + "/1/promos/sponsored")
