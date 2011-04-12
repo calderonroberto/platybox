@@ -52,7 +52,6 @@ module Platybox
       def places_show (current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/places/show", :id => id)
-        print @response.body()
         @place = JSON.parse(@response.body())  
       end
       
