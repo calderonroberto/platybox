@@ -125,7 +125,7 @@ module Platybox
       def quests_available(current_user)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/quests/available")
-        @quests = JSON.parse(@response.body())
+        @quests = JSON.parse(@response.body())["quests"]
       end
             
     end
