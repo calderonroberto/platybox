@@ -92,13 +92,21 @@ module Platybox
         @checkin = JSON.parse(@response.body())  
       end
       
-      #Leaders
+      #Leaders Promos
       #@return [Array][Hash][Hash] a leaders array containing user objects
-      def leaders_experience(current_user, id)
+      def leaders_promos(current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
-        @response = @access_token.request(:post, @site + "/1/leaders/experience")
+        @response = @access_token.request(:post, @site + "/1/leaders/promos")
         @leaders = JSON.parse(@response.body())["leaders"]
       end
+      
+      #Leaders Quests
+      #@return [Array][Hash][Hash] a leaders array containing user objects
+      def leaders_quests(current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/leaders/quests")
+        @leaders = JSON.parse(@response.body())["leaders"]
+      end   
       
       #show promo by bit id
       def promos_show_by_bit(current_user, bits_id)
