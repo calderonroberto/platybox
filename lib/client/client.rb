@@ -120,6 +120,13 @@ module Platybox
         @response = @access_token.request(:post, @site + "/1/promos/invalidate", :id => id)
         @leaders = JSON.parse(@response.body())
       end
+      
+       #show available quests
+      def quests_available(current_user)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/quests/available")
+        @quests = JSON.parse(@response.body())
+      end
             
     end
  end
