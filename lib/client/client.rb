@@ -112,22 +112,48 @@ module Platybox
       def promos_show_by_bit(current_user, bits_id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/promos/show", :bits_id => bits_id)
-        @leaders = JSON.parse(@response.body())
+        @promo = JSON.parse(@response.body())
       end
       
       #show promo by id
       def promos_show(current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/promos/show", :id => id)
-        @leaders = JSON.parse(@response.body())
+        @promo = JSON.parse(@response.body())
       end
            
       #invalidate promo
       def promos_invalidate(current_user, id)
         @access_token = prepare_access_token(current_user.token, current_user.secret)
         @response = @access_token.request(:post, @site + "/1/promos/invalidate", :id => id)
-        @leaders = JSON.parse(@response.body())
+        @promo = JSON.parse(@response.body())
       end
+      
+      #delete promo
+      def promos_delete(current_user, id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/destroy", :id => id)        
+        @promos = JSON.parse(@response.body())["promos"]
+      end
+      
+      #create promo
+      def promos_create(current_user, name, description, price, places_id)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/create", :name => name,
+                                                      :description=>description, :price=>price,
+                                                      :places_id=>places_id)        
+        @promos = JSON.parse(@response.body())["promos"]
+      end
+      
+      #create promo
+      def promos_create_with_rrule(current_user, name, description, price, places_id, rrule)
+        @access_token = prepare_access_token(current_user.token, current_user.secret)
+        @response = @access_token.request(:post, @site + "/1/promos/create", :name => name,
+                                                      :description=>description, :price=>price,
+                                                      :places_id=>places_id, :rrule=>rrule)        
+        @promos = JSON.parse(@response.body())["promos"]
+      end
+      
       
        #show available quests
       def quests_available(current_user)
