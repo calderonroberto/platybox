@@ -35,7 +35,7 @@ module Platybox
         else
           @response = @access_token.request(:post, @site + "/1/users/show", :id => id)
         end
-        @user = JSON.parse(@response.body())["user"]  
+        @user = JSON.parse(@response.body())  
       end
   
       #returns the selected bit
