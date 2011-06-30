@@ -64,6 +64,16 @@ module Platybox
         }
         @promos = JSON.parse(@response.body())["promos"]        
       end
+
+             #returns an array of available coupons
+      def coupons_show
+        url = URI.parse( @site + "/1/coupons/show")
+        req = Net::HTTP::Get.new(url.path)
+        @response = Net::HTTP.start(url.host, url.port) {|http|
+          http.request(req)
+        }
+        @promos = JSON.parse(@response.body())["coupons"]        
+      end      
             
       #returns an array of promos of a place
       #@param places_id [Integer] The numeric ID that identifies a place
